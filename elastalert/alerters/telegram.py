@@ -24,7 +24,7 @@ class TelegramAlerter(Alerter):
         self.telegram_proxy_password = self.rule.get('telegram_proxy_pass', None)
 
     def alert(self, matches):
-        body = '⚠ *%s* ⚠ ```\n' % (self.create_title(matches))
+        body = '%s ```\n' % (self.create_title(matches))
         for match in matches:
             body += str(BasicMatchString(self.rule, match))
             # Separate text of aggregated alerts with dashes

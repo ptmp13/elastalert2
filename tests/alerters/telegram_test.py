@@ -32,7 +32,7 @@ def test_telegram(caplog):
         alert.alert([match])
     expected_data = {
         'chat_id': rule['telegram_room_id'],
-        'text': '⚠ *Test Telegram Rule* ⚠ ```\nTest Telegram Rule\n\n@timestamp: 2021-01-01T00:00:00\nsomefield: foobarbaz\n ```',
+        'text': '*Test Telegram Rule* ```\nTest Telegram Rule\n\n@timestamp: 2021-01-01T00:00:00\nsomefield: foobarbaz\n ```',
         'parse_mode': 'markdown',
         'disable_web_page_preview': True
     }

@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 import copy
 import json
+import datetime
+from datetime import datetime, timezone
+import time
+import pytz
+from tzlocal import get_localzone
 import os
 
 from jinja2 import Template
@@ -33,6 +38,9 @@ class BasicMatchString(object):
     def _add_custom_alert_text(self):
         missing = self.rule.get('alert_missing_value', '<MISSING VALUE>')
         alert_text = str(self.rule.get('alert_text', ''))
+        timestamp_alert_field=str(self.rule.get('timestamp_alert_field', '@timestamp'))
+        timestamp_alert_format=str(self.rule.get('timestamp_alert_format', '%Y-%m-%dT%H:%M:%S.%fZ'))
+        timestamp_alert_timezone=str(self.rule.get('timestamp_alert_timezone', 'Etc/UTC'))
         if self.rule.get('alert_text_type') == 'alert_text_jinja':
             #  Top fields are accessible via `{{field_name}}` or `{{jinja_root_name['field_name']}}`
             #  `jinja_root_name` dict is useful when accessing *fields with dots in their keys*,
@@ -42,12 +50,22 @@ class BasicMatchString(object):
                 template_values | {self.rule['jinja_root_name']: template_values})
         elif 'alert_text_args' in self.rule:
             alert_text_args = self.rule.get('alert_text_args')
-            alert_text_values = [lookup_es_key(self.match, arg) for arg in alert_text_args]
+            try: 
+                index = alert_text_args.index(timestamp_alert_field)
+            except ValueError:
+                index = -1
 
+            alert_text_values = [lookup_es_key(self.match, arg) for arg in alert_text_args]
             # Support referencing other top-level rule properties
             # This technically may not work if there is a top-level rule property with the same name
             # as an es result key, since it would have been matched in the lookup_es_key call above
+            timezone = pytz.timezone(timestamp_alert_timezone)
+            #timezone = get_localzone()
             for i, text_value in enumerate(alert_text_values):
+                if i == index:
+                    format = '%Y-%m-%dT%H:%M:%S.%fZ'
+                    dd = time.mktime(datetime.strptime(text_value, format).timetuple())
+                    alert_text_values[i] = datetime.fromtimestamp(dd, timezone).strftime(timestamp_alert_format)
                 if text_value is None:
                     alert_value = self.rule.get(alert_text_args[i])
                     if alert_value:
