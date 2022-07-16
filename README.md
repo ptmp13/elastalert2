@@ -1,20 +1,20 @@
 # My Changes
+  
+Add fields to rules: 
+timestamp_alert_field - field with timestamp (must default el format: %Y-%m-%dT%H:%M:%S.%fZ ) 
+timestamp_alert_timezone - timezone 
+timestamp_alert_format - format for _timestamp_alert_field_ in alert message. 
 
-Add fields to rules:
-timestamp_alert_field - field with timestamp (must default el format: %Y-%m-%dT%H:%M:%S.%fZ )
-timestamp_alert_timezone - timezone
-timestamp_alert_format - format for _timestamp_alert_field_ in alert message.
+Example: 
 
-Example:
+timestamp_alert_field: "@timestamp" 
+timestamp_alert_timezone: "Europe/Moscow" 
+timestamp_alert_format: "%d-%m-%Y %H:%M:%S %Z" 
 
-timestamp_alert_field: "@timestamp"
-timestamp_alert_timezone: "Europe/Moscow"
-timestamp_alert_format: "%d-%m-%Y %H:%M:%S %Z"
+Works only for: _alert_text_type: alert_text_only_ ! 
 
-Works only for: _alert_text_type: alert_text_only_ !
-
-Remove ⚠ and default bold from subject from telegram rules.
-Use markdown in rules for field: _alert_subject_
+Remove ⚠ and default bold from subject from telegram rules. 
+Use markdown in rules for field: _alert_subject_ 
 
 # ElastAlert 2
 
