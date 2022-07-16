@@ -13,7 +13,7 @@ timestamp_alert_format: "%d-%m-%Y %H:%M:%S %Z"
 
 Works only for: _alert_text_type: alert_text_only_ !  
 
-Remove ⚠ and default bold from subject from telegram rules.  
+Remove ⚠ and default bold from subject telegram rules.  
 Use markdown in rules for field: _alert_subject_  
 
 # ElastAlert 2
