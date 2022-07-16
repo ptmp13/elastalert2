@@ -1,3 +1,21 @@
+# My Changes
+
+Add fields to rules:
+timestamp_alert_field - field with timestamp (must default el format: %Y-%m-%dT%H:%M:%S.%fZ )
+timestamp_alert_timezone - timezone
+timestamp_alert_format - format for _timestamp_alert_field_ in alert message.
+
+Example:
+
+timestamp_alert_field: "@timestamp"
+timestamp_alert_timezone: "Europe/Moscow"
+timestamp_alert_format: "%d-%m-%Y %H:%M:%S %Z"
+
+Works only for: _alert_text_type: alert_text_only_ !
+
+Remove ⚠ and default bold from subject from telegram rules.
+Use markdown in rules for field: _alert_subject_
+
 # ElastAlert 2
 
 ElastAlert 2 is a standalone software tool for alerting on anomalies, spikes, or other patterns of interest from data in [Elasticsearch][10] and [OpenSearch][9].
